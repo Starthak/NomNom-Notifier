@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Avatars {
+  id        String @id @default(uuid())
+  public_id String
+  url       String
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  phoneNumber Float    @unique
+  address     String?
+  role        Role     @default(User)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPremium   Boolean  @default(false)
+  avatars     Avatars?
+  favoriteIds   String[]
+}
+
+
+model Seller {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  phoneNumber Float    @unique
+  address     String?
+  isPremium   Boolean  @default(false)
+  GST         String
+  accountNumber String
+  IFSC        String
+  bankName    String
+}
+
+enum Role {
+  Admin
+  User
+}

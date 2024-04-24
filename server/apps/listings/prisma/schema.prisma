@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Listing {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  category    String
+  subCategory String?
+  condition   String
+  price       Float
+  city        String
+  state       String?
+  imageUrls   String[]
+  userId      String   @default(uuid())
+  postedAt    DateTime
+  rating      Float?
+  discount    Float?
+  delivery    String
+  quantity    Float
+}
+
+model Category{
+  label       String  @id
+  description String
+  icon        String?
+}
